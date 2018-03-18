@@ -1,17 +1,16 @@
 package com.sda.webgame.services;
 
-import com.sda.webgame.model.Colony;
-import com.sda.webgame.model.GameUser;
-import com.sda.webgame.model.GameWorldField;
-import com.sda.webgame.model.WorldFieldType;
+import com.sda.webgame.model.*;
 import com.sda.webgame.model.dto.CreateColonyDto;
 import com.sda.webgame.model.factory.ColonyFactory;
+import com.sda.webgame.model.factory.ColonyLotFactory;
 import com.sda.webgame.repositories.ColonyRepository;
 import com.sda.webgame.repositories.GameUserRepository;
 import com.sda.webgame.repositories.GameWorldFieldRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -47,11 +46,18 @@ public class ColonyService implements IColonyService {
         if (colonyRepository.existsColonyByField(field)){
             return Optional.empty();
         }
-
         Colony createColony = ColonyFactory.create(
                 userCreatingColony.get(),field,dto);
         createColony = colonyRepository.save(createColony);
         return Optional.ofNullable(createColony);
 
     }
+
+    @Override
+    public Optional<Colony> getColony(Long id) {
+        Optional<Colony> colony =colonyRepository.getColonyById(id);
+        return colony;
+    }
+
+
 }

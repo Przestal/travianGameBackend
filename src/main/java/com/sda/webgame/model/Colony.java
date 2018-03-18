@@ -1,14 +1,23 @@
 package com.sda.webgame.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Colony {
+    public List<ColonyLot> getLotList() {
+        return lotList;
+    }
+
+    public void setLotList(List<ColonyLot> lotList) {
+        this.lotList = lotList;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private int maxSlots;
     private String name;
     @OneToOne
     private GameWorldField field;
@@ -16,13 +25,19 @@ public class Colony {
     @ManyToOne
     private GameUser owner;
 
-    private int maxSlots;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<ColonyLot> lotList;
 
-    public Colony(String name, GameWorldField field, GameUser owner, int maxSlots) {
+
+    public Colony(int maxSlots, String name, GameWorldField field, GameUser owner, List<ColonyLot> lotList) {
+        this.maxSlots = maxSlots;
         this.name = name;
         this.field = field;
         this.owner = owner;
-        this.maxSlots = maxSlots;
+        this.lotList = lotList;
+    }
+
+    public Colony() {
     }
 
     public Colony(String colonyName, int i, GameWorldField field, GameUser owner) {
