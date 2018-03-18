@@ -1,5 +1,7 @@
 package com.sda.webgame.model;
 
+import com.sda.webgame.model.factory.ColonyLotFactory;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -40,7 +42,12 @@ public class Colony {
     public Colony() {
     }
 
-    public Colony(String colonyName, int i, GameWorldField field, GameUser owner) {
+    public Colony(String name, int maxSlots, GameWorldField field, GameUser owner) {
+        this.maxSlots = maxSlots;
+        this.name = name;
+        this.field = field;
+        this.owner = owner;
+        this.lotList = ColonyLotFactory.createEmptyLots(this);
     }
 
     public Long getId() {

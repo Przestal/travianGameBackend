@@ -5,6 +5,7 @@ import com.sda.webgame.model.dto.CreateColonyDto;
 import com.sda.webgame.model.response.ResponseMessage;
 import com.sda.webgame.model.response.StatusResponse;
 import com.sda.webgame.services.IColonyService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +22,7 @@ public class ColonyController {
 
     @RequestMapping(path = "/create")
     public ResponseMessage<Colony> createColony(@RequestBody CreateColonyDto dto){
+        Logger.getLogger(getClass()).info("Received request: " + dto.getFieldId());
         Optional<Colony> createColony = colonyService.tryCreateColony(dto);
         if (createColony.isPresent()){
             return new ResponseMessage<>(StatusResponse.OK,"Colony created", createColony.get());
